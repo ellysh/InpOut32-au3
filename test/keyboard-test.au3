@@ -1,4 +1,4 @@
-#include <InpOut.au3>
+#include <../InpOut.au3>
 
 global $kLogFile = "debug.log"
 
