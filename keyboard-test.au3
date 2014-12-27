@@ -57,10 +57,17 @@ func PS2_Command($command, $value)
     endif
 endfunc
 
-func PS2_PressKey($button, $release = false, $delay = 0)
-	$scan_code = $button
+func PS2_PressKey($scan_code, $release = false, $delay = 0)
 	$result = false
+	
+	LogWrite("scan_code = " & $scan_code)
 
+	; extra command for Up/Down/Right/Left arrow keys
+	if $scan_code =	0x48 or $scan_code = 0x4B or $scan_code = 0x4D or $scan_code = 0x50 then
+		$result = PS2_Command(0xD2, 0xE0);
+		LogWrite("result #0 = " & $result)
+	endif
+	
 	;0xD2 - Write keyboard output buffer
 	$result = PS2_Command(0xD2, $scan_code)
 	LogWrite("result #1 = " & $result)
@@ -79,4 +86,5 @@ endfunc
 
 Sleep(2000)
 ;PS2_PressKey(0x1E)
-PS2_PressKey(0x3B, true)
+;PS2_PressKey(0x3B, true)
+PS2_PressKey(0x4B)
